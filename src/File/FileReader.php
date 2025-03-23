@@ -2,6 +2,7 @@
 
 namespace App\File;
 
+use App\Record\InputRecord;
 use Symfony\Component\Filesystem\Filesystem;
 
 class FileReader
@@ -48,6 +49,7 @@ class FileReader
     private function readLines(array $lines): array
     {
         $ret = [];
+
         // Skip the first header line
         for ($i = 1; $i < count($lines); $i++) {
             $ret[] = $this->readLine($lines[$i]);
@@ -56,8 +58,8 @@ class FileReader
         return $ret;
     }
 
-    private function readLine(string $line): array
+    private function readLine(string $line): InputRecord
     {
-        return str_getcsv($line);
+        return new InputRecord(...str_getcsv($line));
     }
 }
