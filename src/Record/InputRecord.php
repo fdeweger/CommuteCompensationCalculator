@@ -8,24 +8,17 @@ class InputRecord
         'Bike',
         'Bus',
         'Car',
-        'Train'
+        'Train',
     ];
 
     public function __construct(
         private readonly string $name,
         private readonly string $transportType,
         private readonly int $distance,
-        private readonly int $workingDays
+        private readonly int $workingDays,
     ) {
         if (!in_array($this->transportType, self::ALLOWED_TRANSPORT_TYPES)) {
-            throw new InvalidTransportTypeException(
-                sprintf(
-                    'Invalid transport type %s for %s, must be one of: %s',
-                    $this->transportType,
-                    $this->name,
-                    implode(', ', self::ALLOWED_TRANSPORT_TYPES)
-                )
-            );
+            throw new InvalidTransportTypeException(sprintf('Invalid transport type %s for %s, must be one of: %s', $this->transportType, $this->name, implode(', ', self::ALLOWED_TRANSPORT_TYPES)));
         }
     }
 

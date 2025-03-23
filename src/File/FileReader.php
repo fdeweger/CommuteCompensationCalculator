@@ -8,10 +8,10 @@ use Symfony\Component\Filesystem\Filesystem;
 class FileReader
 {
     private const HEADERS = [
-        "Employee",
-        "Transport",
-        "Distance",
-        "Workdays per week"
+        'Employee',
+        'Transport',
+        'Distance',
+        'Workdays per week',
     ];
 
     public function __construct(private readonly Filesystem $fileSystem)
@@ -24,7 +24,7 @@ class FileReader
         $contents = str_replace("\r\n", "\n", $contents);
         $lines = explode("\n", $contents);
 
-        if (count($lines) === 0) {
+        if (0 === count($lines) || '' === $lines[0]) {
             throw new EmptyInputCsvException('Input file is empty');
         }
 
@@ -36,13 +36,12 @@ class FileReader
 
     private function validateHeader($header): void
     {
-        if (count($header) !== 4) {
+        if (4 !== count($header)) {
             throw new InvalidHeadersException('Input file should have 4 header columns');
         }
 
-        if ($header !== self::HEADERS) {
-            throw new InvalidHeadersException('Input file should have the the following columns: '
-                . implode(', ', self::HEADERS));
+        if (self::HEADERS !== $header) {
+            throw new InvalidHeadersException('Input file should have the the following columns: '.implode(', ', self::HEADERS));
         }
     }
 
@@ -51,7 +50,7 @@ class FileReader
         $ret = [];
 
         // Skip the first header line
-        for ($i = 1; $i < count($lines); $i++) {
+        for ($i = 1; $i < count($lines); ++$i) {
             $ret[] = $this->readLine($lines[$i]);
         }
 
