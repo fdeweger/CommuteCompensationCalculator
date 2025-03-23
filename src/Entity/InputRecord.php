@@ -1,20 +1,22 @@
 <?php
 
-namespace App\Record;
-
-use App\Enum\TransportType;
+namespace App\Entity;
 
 class InputRecord
 {
     private readonly TransportType $transportType;
 
+    private readonly int $workingDays;
+
+
     public function __construct(
         private readonly string $name,
         string $transportType,
         private readonly int $distance,
-        private readonly int $workingDays,
+        float $workingDays
     ) {
         $this->transportType = TransportType::from($transportType);
+        $this->workingDays = ceil($workingDays);
     }
 
     public function getName(): string

@@ -2,7 +2,7 @@
 
 namespace App\File;
 
-use App\Record\InputRecord;
+use App\Entity\InputRecord;
 use Symfony\Component\Filesystem\Filesystem;
 
 class FileReader

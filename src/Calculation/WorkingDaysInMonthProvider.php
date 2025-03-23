@@ -4,6 +4,12 @@ namespace App\Calculation;
 
 class WorkingDaysInMonthProvider
 {
+    /**
+     * @param int $year
+     * @param int $month
+     * @return \DateTimeInterface[]
+     * @throws \DateMalformedStringException
+     */
     public function getWorkingDays(int $year, int $month): array
     {
         $startDate = new \DateTimeImmutable($year . '-' . $month . '-01');
@@ -17,9 +23,6 @@ class WorkingDaysInMonthProvider
 
             $startDate = $startDate->add(new \DateInterval('P1D'));
         }
-
-            //echo $startDate->format('Y-m-d N') . PHP_EOL;
-
 
         return $workingDays;
     }
