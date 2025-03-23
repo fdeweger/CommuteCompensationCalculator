@@ -2,6 +2,7 @@
 
 namespace Tests\App\File;
 
+use App\Enum\TransportType;
 use App\File\EmptyInputCsvException;
 use App\File\FileReader;
 use App\File\InvalidHeadersException;
@@ -19,14 +20,14 @@ class FileReaderTest extends TestCase
         $this->reader = new FileReader($this->fileSystemMock);
     }
 
-    public function testExceptionWhenReadingEmptyFile()
+    public function testExceptionWhenReadingEmptyFile(): void
     {
         $this->fileSystemMock->method('readFile')->willReturn('');
         $this->expectException(EmptyInputCsvException::class);
         $this->reader->readFile('foo.csv');
     }
 
-    public function testExceptionWhenHeadersAreInvalid()
+    public function testExceptionWhenHeadersAreInvalid(): void
     {
         $contents = 'a,b,c,d'.PHP_EOL
             .'Frank,Bike,5,5';
@@ -36,7 +37,7 @@ class FileReaderTest extends TestCase
         $this->reader->readFile('foo.csv');
     }
 
-    public function testExceptionWhenHeaderCountDoesntMatch()
+    public function testExceptionWhenHeaderCountDoesntMatch(): void
     {
         $contents = 'Employee,Transport,Distance'.PHP_EOL
             .'Frank,Bike,5,5';
@@ -46,7 +47,7 @@ class FileReaderTest extends TestCase
         $this->reader->readFile('foo.csv');
     }
 
-    public function testCorrectFileWillBeRead()
+    public function testCorrectFileWillBeRead(): void
     {
         $contents = 'Employee,Transport,Distance,Workdays per week'.PHP_EOL
             .'Frank,Bike,10,5'.PHP_EOL
@@ -57,7 +58,7 @@ class FileReaderTest extends TestCase
 
         $this->assertEquals(2, count($results));
         $this->assertEquals('Frank', $results[0]->getName());
-        $this->assertEquals('Bike', $results[0]->getTransportType());
+        $this->assertEquals(TransportType::Bike, $results[0]->getTransportType());
         $this->assertEquals(10, $results[0]->getDistance());
         $this->assertEquals(5, $results[0]->getWorkingDays());
     }
