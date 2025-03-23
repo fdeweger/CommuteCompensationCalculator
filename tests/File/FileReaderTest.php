@@ -5,7 +5,8 @@ namespace Tests\App\File;
 use App\Enum\TransportType;
 use App\File\EmptyInputCsvException;
 use App\File\FileReader;
-use App\File\InvalidHeadersException;
+use App\File\InvalidHeaderException;
+use App\File\InvalidInputRowException;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -33,7 +34,7 @@ class FileReaderTest extends TestCase
             .'Frank,Bike,5,5';
 
         $this->fileSystemMock->method('readFile')->willReturn($contents);
-        $this->expectException(InvalidHeadersException::class);
+        $this->expectException(InvalidHeaderException::class);
         $this->reader->readFile('foo.csv');
     }
 
@@ -43,7 +44,17 @@ class FileReaderTest extends TestCase
             .'Frank,Bike,5,5';
 
         $this->fileSystemMock->method('readFile')->willReturn($contents);
-        $this->expectException(InvalidHeadersException::class);
+        $this->expectException(InvalidHeaderException::class);
+        $this->reader->readFile('foo.csv');
+    }
+
+    public function testExceptionWhenRowContainsInvalidNumberOfcolumns(): void
+    {
+        $contents = 'Employee,Transport,Distance,Workdays per week'.PHP_EOL
+            .'Frank,Bike,5';
+
+        $this->fileSystemMock->method('readFile')->willReturn($contents);
+        $this->expectException(InvalidInputRowException::class);
         $this->reader->readFile('foo.csv');
     }
 

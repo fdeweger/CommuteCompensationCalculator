@@ -37,11 +37,11 @@ class FileReader
     private function validateHeader($header): void
     {
         if (4 !== count($header)) {
-            throw new InvalidHeadersException('Input file should have 4 header columns');
+            throw new InvalidHeaderException('Input file should have 4 header columns');
         }
 
         if (self::HEADERS !== $header) {
-            throw new InvalidHeadersException('Input file should have the the following columns: '.implode(', ', self::HEADERS));
+            throw new InvalidHeaderException('Input file should have the the following columns: '.implode(', ', self::HEADERS));
         }
     }
 
@@ -51,6 +51,11 @@ class FileReader
 
         // Skip the first header line
         for ($i = 1; $i < count($lines); ++$i) {
+            $line = str_getcsv($lines[$i]);
+            if (count($line) !== 4) {
+                throw new InvalidInputRowException(sprintf('Line %s doesnt contain 4 columns', $i));
+            }
+
             $ret[] = new InputRecord(...str_getcsv($lines[$i]));
         }
 
