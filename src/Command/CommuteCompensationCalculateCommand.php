@@ -9,7 +9,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-#[AsCommand(name: 'app:calculate', description: 'Calculate commute costs', )]
+#[AsCommand(name: 'app:calculate', description: 'Calculate commute costs',)]
 class CommuteCompensationCalculateCommand extends Command
 {
     public function configure(): void
