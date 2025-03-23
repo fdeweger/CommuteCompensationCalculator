@@ -51,14 +51,9 @@ class FileReader
 
         // Skip the first header line
         for ($i = 1; $i < count($lines); ++$i) {
-            $ret[] = $this->readLine($lines[$i]);
+            $ret[] = new InputRecord(...str_getcsv($lines[$i]));
         }
 
         return $ret;
-    }
-
-    private function readLine(string $line): InputRecord
-    {
-        return new InputRecord(...str_getcsv($line));
     }
 }
