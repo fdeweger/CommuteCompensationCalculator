@@ -2,20 +2,19 @@
 
 namespace App\Entity;
 
-class InputRecord
+class Employee
 {
     private readonly TransportType $transportType;
 
     private readonly int $workingDays;
 
-
     public function __construct(
         private readonly string $name,
         string $transportType,
         private readonly int $distance,
-        float $workingDays
+        float $workingDays,
     ) {
-        $this->transportType = TransportType::from($transportType);
+        $this->transportType = TransportType::from(trim($transportType));
         $this->workingDays = ceil($workingDays);
     }
 

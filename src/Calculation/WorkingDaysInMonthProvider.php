@@ -5,14 +5,13 @@ namespace App\Calculation;
 class WorkingDaysInMonthProvider
 {
     /**
-     * @param int $year
-     * @param int $month
      * @return \DateTimeInterface[]
+     *
      * @throws \DateMalformedStringException
      */
     public function getWorkingDays(int $year, int $month): array
     {
-        $startDate = new \DateTimeImmutable($year . '-' . $month . '-01');
+        $startDate = new \DateTimeImmutable($year.'-'.$month.'-01');
         $endDate = $startDate->add(new \DateInterval('P1M'));
         $workingDays = [];
 
@@ -25,5 +24,28 @@ class WorkingDaysInMonthProvider
         }
 
         return $workingDays;
+    }
+
+    public function getNumberOfDaysWorked(array $workingDaysInMonth, int $employeeWorkingDays): int
+    {
+        $daysWorked = 0;
+        foreach ($workingDaysInMonth as $workingDay) {
+            if ($workingDay->format('N') <= $employeeWorkingDays) {
+                ++$daysWorked;
+            }
+        }
+
+        return $daysWorked;
+    }
+
+    public function getDueDate(int $year, int $month): \DateTimeInterface
+    {
+        $date = new \DateTimeImmutable($year.'-'.$month.'-01');
+        $dueDate = $date->add(new \DateInterval('P1M'));
+        while (1 !== (int) $dueDate->format('N')) {
+            $dueDate = $dueDate->add(new \DateInterval('P1D'));
+        }
+
+        return $dueDate;
     }
 }

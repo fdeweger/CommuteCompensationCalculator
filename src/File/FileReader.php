@@ -2,7 +2,7 @@
 
 namespace App\File;
 
-use App\Entity\InputRecord;
+use App\Entity\Employee;
 use Symfony\Component\Filesystem\Filesystem;
 
 class FileReader
@@ -52,11 +52,11 @@ class FileReader
         // Skip the first header line
         for ($i = 1; $i < count($lines); ++$i) {
             $line = str_getcsv($lines[$i]);
-            if (count($line) !== 4) {
+            if (4 !== count($line)) {
                 throw new InvalidInputRowException(sprintf('Line %s doesnt contain 4 columns', $i));
             }
 
-            $ret[] = new InputRecord(...str_getcsv($lines[$i]));
+            $ret[] = new Employee(...str_getcsv($lines[$i]));
         }
 
         return $ret;

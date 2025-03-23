@@ -2,7 +2,7 @@
 
 namespace Tests\App\File;
 
-use App\Enum\TransportType;
+use App\Entity\TransportType;
 use App\File\EmptyInputCsvException;
 use App\File\FileReader;
 use App\File\InvalidHeaderException;

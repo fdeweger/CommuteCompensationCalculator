@@ -2,7 +2,7 @@
 
 namespace Tests\App\Calculation;
 
-use App\Calculation\FixedKilometerPriceCalculator;
+use App\Calculation\Calculator\FixedKilometerPriceCalculator;
 use PHPUnit\Framework\TestCase;
 
 class FixedKilometerPriceCalculatorTest extends TestCase
@@ -12,7 +12,6 @@ class FixedKilometerPriceCalculatorTest extends TestCase
      */
     public function testFixedKilometerPriceCalculation(int $expected, int $PricePerKilometer, int $distance, $daysWorked): void
     {
-
         $calculator = new FixedKilometerPriceCalculator($PricePerKilometer);
         $result = $calculator->calculate($distance, $daysWorked);
         $this->assertEquals($expected, $result);

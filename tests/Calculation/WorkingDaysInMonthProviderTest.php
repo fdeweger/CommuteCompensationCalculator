@@ -7,10 +7,16 @@ use PHPUnit\Framework\TestCase;
 
 class WorkingDaysInMonthProviderTest extends TestCase
 {
+    private WorkingDaysInMonthProvider $provider;
+
+    public function setUp(): void
+    {
+        $this->provider = new WorkingDaysInMonthProvider();
+    }
+
     public function testWorkingDaysInMonthProvider()
     {
-        $provider = new WorkingDaysInMonthProvider();
-        $result = $provider->getWorkingDays(2025, 3);
+        $result = $this->provider->getWorkingDays(2025, 3);
 
         $this->assertEquals(21, count($result));
 
@@ -39,5 +45,23 @@ class WorkingDaysInMonthProviderTest extends TestCase
         $this->assertEquals(new \DateTime('2025-03-28'), $result[19]);
 
         $this->assertEquals(new \DateTime('2025-03-31'), $result[20]);
+    }
+
+    /**
+     * @dataProvider dueDateProvider
+     */
+    public function testGetDueDate(string $expected, int $year, int $month)
+    {
+        $result = $this->provider->getDueDate($year, $month);
+        $this->assertEquals($expected, $result->format('Y-m-d'));
+    }
+
+    public function dueDateProvider(): array
+    {
+        return [
+            ['2024-03-04', 2024, 2],
+            ['2025-03-03', 2025, 2],
+            ['2026-01-05', 2025, 12],
+        ];
     }
 }

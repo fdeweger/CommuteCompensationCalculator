@@ -2,7 +2,7 @@
 
 namespace Test\App\Calculation;
 
-use App\Calculation\BikeCalculator;
+use App\Calculation\Calculator\BikeCalculator;
 use PHPUnit\Framework\TestCase;
 
 class BikeCalculationTest extends TestCase
@@ -13,7 +13,6 @@ class BikeCalculationTest extends TestCase
     {
         $this->bikeCalculator = new BikeCalculator();
     }
-
 
     /**
      * @dataProvider bikeCalculationProvider
@@ -32,7 +31,7 @@ class BikeCalculationTest extends TestCase
             [2000, 2, 10],
             [10000, 5, 10],
             [40000, 10, 20],
-            [0, 11, 20]
+            [0, 11, 20],
         ];
     }
 }
