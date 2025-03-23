@@ -13,7 +13,7 @@ use Symfony\Component\Filesystem\Filesystem;
 class FileReaderTest extends TestCase
 {
     private FileReader $reader;
-    private $fileSystemMock;
+    private Filesystem $fileSystemMock;
 
     protected function setUp(): void
     {

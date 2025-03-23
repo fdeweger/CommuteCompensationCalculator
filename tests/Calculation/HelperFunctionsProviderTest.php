@@ -2,16 +2,16 @@
 
 namespace Test\App\Calculation;
 
-use App\Calculation\WorkingDaysInMonthProvider;
+use App\Calculation\HelperFunctions;
 use PHPUnit\Framework\TestCase;
 
-class WorkingDaysInMonthProviderTest extends TestCase
+class HelperFunctionsProviderTest extends TestCase
 {
-    private WorkingDaysInMonthProvider $provider;
+    private HelperFunctions $provider;
 
     public function setUp(): void
     {
-        $this->provider = new WorkingDaysInMonthProvider();
+        $this->provider = new HelperFunctions();
     }
 
     public function testWorkingDaysInMonthProvider()

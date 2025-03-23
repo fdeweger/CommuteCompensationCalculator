@@ -2,9 +2,11 @@
 
 namespace App\Calculation;
 
-class WorkingDaysInMonthProvider
+class HelperFunctions
 {
     /**
+     * Returns a list of dates with al working days (monday to friday) for a given month / year.
+     *
      * @return \DateTimeInterface[]
      *
      * @throws \DateMalformedStringException

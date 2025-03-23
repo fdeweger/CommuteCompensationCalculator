@@ -12,7 +12,7 @@ use App\Entity\TransportType;
 
 class ComposensationCalculationService
 {
-    public function __construct(private readonly WorkingDaysInMonthProvider $workingDaysInMonthProvider)
+    public function __construct(private readonly HelperFunctions $helpers)
     {
     }
 
@@ -26,21 +26,26 @@ class ComposensationCalculationService
         $workingDaysPerMonth = [];
         $dueDates = [];
         for ($i = 1; $i <= 12; ++$i) {
-            $workingDaysPerMonth[] = $this->workingDaysInMonthProvider->getWorkingDays($year, $i);
-            $dueDates[] = $this->workingDaysInMonthProvider->getDueDate($year, $i);
+            // Create a list of working days per month
+            $workingDaysPerMonth[] = $this->helpers->getWorkingDays($year, $i);
+            // And a list of due dates by which the amount must be paid per month
+            $dueDates[] = $this->helpers->getDueDate($year, $i);
         }
 
         $ret = [];
         foreach ($employees as $employee) {
-            $compensationPerMonthPerEmployee = [];
+            $compensationPerMonth = [];
             $calculator = $this->getCalculator($employee->getTransportType());
             for ($i = 0; $i < 12; ++$i) {
-                $daysWorked = $this->workingDaysInMonthProvider->getNumberOfDaysWorked($workingDaysPerMonth[$i], $employee->getWorkingDays());
+                // Per employee, per month, get the number of days worked
+                $daysWorked = $this->helpers->getNumberOfDaysWorked($workingDaysPerMonth[$i], $employee->getWorkingDays());
+
+                // And calculate the amount due for that month
                 $amount = $calculator->calculate($employee->getDistance(), $daysWorked);
-                $compensationPerMonthPerEmployee[] = new MonthlyCompensation($employee->getDistance() * $daysWorked * 2, $amount, $dueDates[$i]);
+                $compensationPerMonth[] = new MonthlyCompensation($employee->getDistance() * $daysWorked * 2, $amount, $dueDates[$i]);
             }
 
-            $ret[] = new TotalCompensation($employee->getName(), $employee->getTransportType(), $compensationPerMonthPerEmployee);
+            $ret[] = new TotalCompensation($employee->getName(), $employee->getTransportType(), $compensationPerMonth);
         }
 
         return $ret;

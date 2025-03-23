@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\App\Calculation;
+namespace Test\App\Calculation\Calculator;
 
 use App\Calculation\Calculator\FixedKilometerPriceCalculator;
 use PHPUnit\Framework\TestCase;

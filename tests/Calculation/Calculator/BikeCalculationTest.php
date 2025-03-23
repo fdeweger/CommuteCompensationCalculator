@@ -1,6 +1,6 @@
 <?php
 
-namespace Test\App\Calculation;
+namespace Test\App\Calculation\Calculator;
 
 use App\Calculation\Calculator\BikeCalculator;
 use PHPUnit\Framework\TestCase;

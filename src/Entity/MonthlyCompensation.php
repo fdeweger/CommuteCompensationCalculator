@@ -4,20 +4,29 @@ namespace App\Entity;
 
 class MonthlyCompensation
 {
-    public function __construct(private readonly int $totalDistance, private readonly int $compensation, private readonly \DateTimeInterface $dueDate)
+    public function __construct(private readonly int $totalDistance, private readonly int $amount, private readonly \DateTimeInterface $dueDate)
     {
     }
 
+    /**
+     * Returns the total distance travelled in KM.
+     */
     public function getTotalDistance(): int
     {
         return $this->totalDistance;
     }
 
-    public function getCompensation(): int
+    /**
+     * Returns the amount due in cents.
+     */
+    public function getAmount(): int
     {
-        return $this->compensation;
+        return $this->amount;
     }
 
+    /**
+     * When is the amount due?
+     */
     public function getDueDate(): \DateTimeInterface
     {
         return $this->dueDate;

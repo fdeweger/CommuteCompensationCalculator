@@ -9,6 +9,7 @@
 ###< symfony/framework-bundle ###
 
 /.idea/
+/output.csv
 
 ###> symfony/phpunit-bridge ###
 .phpunit.result.cache
