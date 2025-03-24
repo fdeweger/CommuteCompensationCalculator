@@ -4,6 +4,15 @@ namespace App\Calculation;
 
 class HelperFunctions
 {
+    private array $publicHolidays = [];
+
+    public function __construct(array $publicHolidays)
+    {
+        foreach ($publicHolidays as $publicHoliday) {
+            $this->publicHolidays[] = new \DateTimeImmutable($publicHoliday);
+        }
+    }
+
     /**
      * Returns a list of dates with al working days (monday to friday) for a given month / year.
      *
@@ -18,8 +27,12 @@ class HelperFunctions
         $workingDays = [];
 
         while ($startDate < $endDate) {
-            if ($startDate->format('N') < 6) {
-                $workingDays[] = $startDate;
+            // Filter out public holidays
+            if (false === in_array($startDate, $this->publicHolidays)) {
+                // filter out saturday & sunday
+                if ($startDate->format('N') < 6) {
+                    $workingDays[] = $startDate;
+                }
             }
 
             $startDate = $startDate->add(new \DateInterval('P1D'));

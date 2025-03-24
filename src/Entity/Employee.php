@@ -31,7 +31,7 @@ class Employee
     }
 
     /**
-     * Returns an array that indicates on which day an employee is working, 1 = Monday ... 5 = Friday.
+     * Returns an array that indicates on which days an employee is working, 1 = Monday ... 5 = Friday.
      */
     public function getWorkingDays(): array
     {

@@ -25,7 +25,7 @@ class CompensationCalculationServiceTest extends TestCase
         // No matter what, in this test everbody works 1 day per month.
         $this->helperFunctionsMock->method('getNumberOfDaysWorked')->willReturn(1);
         $this->helperFunctionsMock->method('getDueDate')->willReturn(new \DateTime('2025-01-01'));
-        $results = $this->service->calculate(1234, [new Employee('Chris', 'Bike', 7, 123)]);
+        $results = $this->service->calculate(1234, [new Employee('Chris', 'Bike', 7, [1])]);
 
         $this->assertEquals(1, count($results));
         $this->assertEquals('Chris', $results[0]->getName());

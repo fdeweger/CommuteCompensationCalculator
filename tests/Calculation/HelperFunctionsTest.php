@@ -7,16 +7,16 @@ use PHPUnit\Framework\TestCase;
 
 class HelperFunctionsTest extends TestCase
 {
-    private HelperFunctions $provider;
+    private HelperFunctions $helper;
 
     public function setUp(): void
     {
-        $this->provider = new HelperFunctions();
+        $this->helper = new HelperFunctions([]);
     }
 
     public function testGetWorkingDays()
     {
-        $result = $this->provider->getWorkingDays(2025, 3);
+        $result = $this->helper->getWorkingDays(2025, 3);
 
         $this->assertEquals(21, count($result));
 
@@ -52,7 +52,7 @@ class HelperFunctionsTest extends TestCase
      */
     public function testGetDueDate(string $expected, int $year, int $month)
     {
-        $result = $this->provider->getDueDate($year, $month);
+        $result = $this->helper->getDueDate($year, $month);
         $this->assertEquals($expected, $result->format('Y-m-d'));
     }
 
@@ -75,7 +75,7 @@ class HelperFunctionsTest extends TestCase
             $month[] = new \DateTimeImmutable('2025-03-'.$day);
         }
 
-        $this->assertEquals($expected, $this->provider->getNumberOfDaysWorked($month, $employeeWorkingDays));
+        $this->assertEquals($expected, $this->helper->getNumberOfDaysWorked($month, $employeeWorkingDays));
     }
 
     public function numberOfDaysWorkedProvider(): array
@@ -87,5 +87,12 @@ class HelperFunctionsTest extends TestCase
             [13, [1, 3, 5]],
             [21, [1, 2, 3, 4, 5]],
         ];
+    }
+
+    public function testPublicHolidays()
+    {
+        $helper = new HelperFunctions(['2025-03-05']);
+        $result = $helper->getWorkingDays(2025, 3);
+        $this->assertEquals(20, count($result));
     }
 }

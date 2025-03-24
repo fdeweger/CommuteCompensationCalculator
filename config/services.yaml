@@ -4,6 +4,16 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
+    public_holidays:
+        - '2025-01-01'
+        - '2025-04-20'
+        - '2025-04-21'
+        - '2025-05-05'
+        - '2025-05-29'
+        - '2025-06-08'
+        - '2025-06-09'
+        - '2025-12-25'
+        - '2025-12-26'
 
 services:
     # default configuration for services in *this* file
@@ -22,3 +32,7 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+    App\Calculation\HelperFunctions:
+        class: App\Calculation\HelperFunctions
+        arguments:
+            - '%public_holidays%'
