@@ -1,5 +1,5 @@
 # Commute compensation calculator
-This is a small CLI example app for an assessment.
+This is a small CLI example app for an assessment. The commands here after have been tested under WSL / ubuntu, but not on Mac or native Windows.
 
 ## Installation
 After cloning this repository, run 
@@ -13,13 +13,15 @@ composer install --dev
 ```
 
 ## Usage
+This CLI app uses a CSV as input. An example is provided in the repository: input.csv 
+
 ```
 bin/console app:calculate --inputfile input.csv --outputfile output.csv --year 2025 
 ```
 
 If you don't provide any options, the application will assume the defaults as given in the example above, so you can also run it like this:
 ```
-bin/console app:calculate --inputfile input.csv 
+bin/console app:calculate 
 ```
 Year will then default to the current year.
 

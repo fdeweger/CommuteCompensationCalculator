@@ -1,8 +1,8 @@
-Employee,Transport,Distance,Workdays per week
-Paul,Car,60,5
-Martin,Bus,8,4
-Jeroen,Bike,9,5
-Tineke,Bike,4,3
-Arnout,Train,23,5
-Matthijs,Bike,11,4.5
-Rens,Car,12,5
+Employee,Transport,Distance,Monday,Tuesday,Wednesday,Thursday,Friday
+Paul,Car,60,1,1,1,1,1
+Martin,Bus,8,1,1,1,1,0
+Jeroen,Bike,9,1,1,1,1,1
+Tineke,Bike,4,1,1,1,0,0
+Arnout,Train,23,1,1,1,1,1
+Matthijs,Bike,11,1,1,1,1,1
+Rens,Car,12,1,1,1,1,1

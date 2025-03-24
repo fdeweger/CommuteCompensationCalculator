@@ -28,11 +28,11 @@ class HelperFunctions
         return $workingDays;
     }
 
-    public function getNumberOfDaysWorked(array $workingDaysInMonth, int $employeeWorkingDays): int
+    public function getNumberOfDaysWorked(array $workingDaysInMonth, array $employeeWorkingDays): int
     {
         $daysWorked = 0;
         foreach ($workingDaysInMonth as $workingDay) {
-            if ($workingDay->format('N') <= $employeeWorkingDays) {
+            if (in_array($workingDay->format('N'), $employeeWorkingDays)) {
                 ++$daysWorked;
             }
         }

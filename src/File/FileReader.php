@@ -11,7 +11,11 @@ class FileReader
         'Employee',
         'Transport',
         'Distance',
-        'Workdays per week',
+        'Monday',
+        'Tuesday',
+        'Wednesday',
+        'Thursday',
+        'Friday',
     ];
 
     public function __construct(private readonly Filesystem $fileSystem)
@@ -36,8 +40,8 @@ class FileReader
 
     private function validateHeader($header): void
     {
-        if (4 !== count($header)) {
-            throw new InvalidHeaderException('Input file should have 4 header columns');
+        if (8 !== count($header)) {
+            throw new InvalidHeaderException('Header doesn\'t contain 8 columns ');
         }
 
         if (self::HEADERS !== $header) {
@@ -52,11 +56,19 @@ class FileReader
         // Skip the first header line
         for ($i = 1; $i < count($lines); ++$i) {
             $line = str_getcsv($lines[$i]);
-            if (4 !== count($line)) {
-                throw new InvalidInputRowException(sprintf('Line %s doesnt contain 4 columns', $i));
+            if (8 !== count($line)) {
+                throw new InvalidInputRowException(sprintf('Line %s doesn\'t contain 8 columns', $i));
             }
 
-            $ret[] = new Employee(...str_getcsv($lines[$i]));
+            $workingDays = [];
+
+            for ($j = 1; $j <= 5; ++$j) {
+                if (1 === (int) $line[$j + 2]) {
+                    $workingDays[] = $j;
+                }
+            }
+
+            $ret[] = new Employee($line[0], $line[1], $line[2], $workingDays);
         }
 
         return $ret;

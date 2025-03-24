@@ -6,16 +6,13 @@ class Employee
 {
     private readonly TransportType $transportType;
 
-    private readonly int $workingDays;
-
     public function __construct(
         private readonly string $name,
         string $transportType,
         private readonly int $distance,
-        float $workingDays,
+        private readonly array $workingDays,
     ) {
         $this->transportType = TransportType::from(trim($transportType));
-        $this->workingDays = ceil($workingDays);
     }
 
     public function getName(): string
@@ -33,7 +30,10 @@ class Employee
         return $this->distance;
     }
 
-    public function getWorkingDays(): int
+    /**
+     * Returns an array that indicates on which day an employee is working, 1 = Monday ... 5 = Friday.
+     */
+    public function getWorkingDays(): array
     {
         return $this->workingDays;
     }

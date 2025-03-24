@@ -5,7 +5,7 @@ namespace Test\App\Calculation;
 use App\Calculation\HelperFunctions;
 use PHPUnit\Framework\TestCase;
 
-class HelperFunctionsProviderTest extends TestCase
+class HelperFunctionsTest extends TestCase
 {
     private HelperFunctions $provider;
 
@@ -14,7 +14,7 @@ class HelperFunctionsProviderTest extends TestCase
         $this->provider = new HelperFunctions();
     }
 
-    public function testWorkingDaysInMonthProvider()
+    public function testGetWorkingDays()
     {
         $result = $this->provider->getWorkingDays(2025, 3);
 
@@ -62,6 +62,30 @@ class HelperFunctionsProviderTest extends TestCase
             ['2024-03-04', 2024, 2],
             ['2025-03-03', 2025, 2],
             ['2026-01-05', 2025, 12],
+        ];
+    }
+
+    /**
+     * @dataProvider numberOfDaysWorkedProvider
+     */
+    public function testGetNumberOfDaysWorked(int $expected, array $employeeWorkingDays)
+    {
+        $month = [];
+        for ($day = 1; $day <= 31; ++$day) {
+            $month[] = new \DateTimeImmutable('2025-03-'.$day);
+        }
+
+        $this->assertEquals($expected, $this->provider->getNumberOfDaysWorked($month, $employeeWorkingDays));
+    }
+
+    public function numberOfDaysWorkedProvider(): array
+    {
+        return [
+            [0, []],
+            [5, [1]],
+            [4, [5]],
+            [13, [1, 3, 5]],
+            [21, [1, 2, 3, 4, 5]],
         ];
     }
 }

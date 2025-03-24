@@ -31,7 +31,7 @@ class FileReaderTest extends TestCase
     public function testExceptionWhenHeadersAreInvalid(): void
     {
         $contents = 'a,b,c,d'.PHP_EOL
-            .'Frank,Bike,5,5';
+            .'Frank,Bike,5,1,1,1,1,1';
 
         $this->fileSystemMock->method('readFile')->willReturn($contents);
         $this->expectException(InvalidHeaderException::class);
@@ -41,28 +41,39 @@ class FileReaderTest extends TestCase
     public function testExceptionWhenHeaderCountDoesntMatch(): void
     {
         $contents = 'Employee,Transport,Distance'.PHP_EOL
-            .'Frank,Bike,5,5';
+            .'Frank,Bike,5,1,1,1,1,1';
 
         $this->fileSystemMock->method('readFile')->willReturn($contents);
         $this->expectException(InvalidHeaderException::class);
         $this->reader->readFile('foo.csv');
     }
 
-    public function testExceptionWhenRowContainsInvalidNumberOfcolumns(): void
+    public function testExceptionWhenRowContainsInvalidNumberOfColumns(): void
     {
-        $contents = 'Employee,Transport,Distance,Workdays per week'.PHP_EOL
-            .'Frank,Bike,5';
+        $contents = 'Employee,Transport,Distance,Monday,Tuesday,Wednesday,Thursday,Friday'.PHP_EOL
+            .'Frank,Bike,5,1,1';
 
         $this->fileSystemMock->method('readFile')->willReturn($contents);
         $this->expectException(InvalidInputRowException::class);
         $this->reader->readFile('foo.csv');
     }
 
+    public function testExceptionWhenRowContainsInvalidTransportType(): void
+    {
+        $contents = 'Employee,Transport,Distance,Monday,Tuesday,Wednesday,Thursday,Friday'.PHP_EOL
+            .'Frank,Rocket,10,1,0,1,0,1'.PHP_EOL
+            .'X,Car,20,1,1,1,1,1';
+
+        $this->fileSystemMock->method('readFile')->willReturn($contents);
+        $this->expectException(\ValueError::class);
+        $this->reader->readFile('foo.csv');
+    }
+
     public function testCorrectFileWillBeRead(): void
     {
-        $contents = 'Employee,Transport,Distance,Workdays per week'.PHP_EOL
-            .'Frank,Bike,10,5'.PHP_EOL
-            .'X,Car,20,2';
+        $contents = 'Employee,Transport,Distance,Monday,Tuesday,Wednesday,Thursday,Friday'.PHP_EOL
+            .'Frank,Bike,10,1,0,1,0,1'.PHP_EOL
+            .'X,Car,20,1,1,1,1,1';
 
         $this->fileSystemMock->method('readFile')->willReturn($contents);
         $results = $this->reader->readFile('foo.csv');
@@ -71,6 +82,6 @@ class FileReaderTest extends TestCase
         $this->assertEquals('Frank', $results[0]->getName());
         $this->assertEquals(TransportType::Bike, $results[0]->getTransportType());
         $this->assertEquals(10, $results[0]->getDistance());
-        $this->assertEquals(5, $results[0]->getWorkingDays());
+        $this->assertEquals([1, 3, 5], $results[0]->getWorkingDays());
     }
 }
